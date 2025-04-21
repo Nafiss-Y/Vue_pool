@@ -88,7 +88,6 @@ const handleSubmit = () => {
 .login-title {
   text-align: start;
   color: #1a1a1a;
-  /* margin-bottom: 2rem; */
   font-weight: 600;
 }
 
