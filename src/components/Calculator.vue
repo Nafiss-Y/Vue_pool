@@ -29,22 +29,23 @@
   </template>
   
 <script setup lang="ts">
-	import { ref, computed, type ComputedRef, watch } from 'vue';
+	import { ref, computed, watchEffect } from 'vue';
 
 
 	const firstNumber = ref<number>(0);
 	const secondNumber = ref<number>(0);
 
 
-	const sum: ComputedRef<number> = computed(() => firstNumber.value + secondNumber.value);
-	watch(sum, (newSum) => {
-		if (newSum < 0) {
+	const sum = computed<number>(() => firstNumber.value + secondNumber.value);
+	watchEffect(() => {
+		const currentSum = firstNumber.value + secondNumber.value;
+		if (currentSum < 0) {
 			alert('Only positive numbers are allowed!');
 			firstNumber.value = 0;
 			secondNumber.value = 0;
 		}
 	});
-	const oddOrEven: ComputedRef<'even' | 'odd'> = computed(() => {
+	const oddOrEven = computed<'even' | 'odd'>(() => {
 		return sum.value % 2 === 0 ? 'even' : 'odd';
 	});
 </script>
