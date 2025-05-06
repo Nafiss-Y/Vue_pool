@@ -56,7 +56,7 @@
 		  </thead>
 		  <tbody>
 			<tr 
-			  v-for="(person, index) in personsList" 
+			  v-for="(person, index) in persons"
 			  :key="index"
 			  class="person-table__row"
 			  :data-testid="`person-row-${index}`"
@@ -88,11 +88,10 @@ interface Person {
 	age: number;
 }
 
-const props = defineProps<{
-	initialPersons?: Person[];
-}>();
+const persons = defineModel<Person[]>('persons', {
+  default: () => []
+});
 
-const personsList = ref<Person[]>([]);
 
 const newPerson = ref<Person>({
 	name: '',
@@ -100,20 +99,29 @@ const newPerson = ref<Person>({
 	age: 0
 });
 
-onMounted(() => {
-if (props.initialPersons && props.initialPersons.length) {
-	personsList.value = [...props.initialPersons];
-}
-});
+
+const personExists = (person: Person): boolean => {
+  return persons.value.some(
+    p => p.name.toLowerCase() === person.name.toLowerCase() && 
+         p.surname.toLowerCase() === person.surname.toLowerCase()
+  );
+};
 
 
 const addPerson = () => {
 if (newPerson.value.name && newPerson.value.surname && newPerson.value.age > 0) {
-		personsList.value.push({
-		name: newPerson.value.name,
-		surname: newPerson.value.surname,
-		age: newPerson.value.age
-	});
+	if (personExists(newPerson.value)) {
+      alert("This person already exists in the table!");
+      return;
+    }
+	persons.value = [
+      ...persons.value, 
+      {
+        name: newPerson.value.name,
+        surname: newPerson.value.surname,
+        age: newPerson.value.age
+      }
+    ];
 
 	newPerson.value = {
 		name: '',
@@ -124,7 +132,9 @@ if (newPerson.value.name && newPerson.value.surname && newPerson.value.age > 0) 
 };
 
 const deletePerson = (index: number) => {
-	personsList.value.splice(index, 1);
+	const updatedPersons = [...persons.value];
+  	updatedPersons.splice(index, 1);
+ 	persons.value = updatedPersons;
 };
 </script>
 

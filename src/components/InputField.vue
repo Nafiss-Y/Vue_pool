@@ -1,40 +1,32 @@
 <template>
   <div class="input-field">
-    <label v-if="label" class="input-field__label">{{ label }}</label>
+    <label v-if="props.label" class="input-field__label">{{ props.label }}</label>
     <input
       type="text"
       class="input-field__control"
-      :placeholder="placeholder"
-      :value="modelValue"
-      @input="updateValue($event)"
+      :placeholder="props.placeholder"
+      v-model="modelValue"
     />
   </div>
 
 </template>
 
 <script setup lang="ts">
-defineProps({
-  label: {
-    type: String,
-    default: ''
-  },
-  placeholder: {
-    type: String,
-    default: ''
-  },
-  modelValue: {
-    type: String,
-    default: ''
-  }
+
+const modelValue = defineModel<string>('modelValue', {
+  default: ''
 });
 
-const emit = defineEmits(['update:modelValue', 'input']);
+type InputFieldProps ={
+  label?: string;
+  placeholder?: string;
+}
 
-const updateValue = (event: Event) => {
-  const value = (event.target as HTMLInputElement).value;
-  emit('input', value);
-  emit('update:modelValue', value);
-};
+const props = withDefaults(defineProps<InputFieldProps>(), {
+  label: '',
+  placeholder: ''
+});
+
 </script>
 
 <style lang="scss" scoped>
