@@ -28,26 +28,26 @@
     </div>
   </template>
   
-  <script setup lang="ts">
-  import { ref, computed, watch } from 'vue';
-  
-  const firstNumber = ref(0);
-  const secondNumber = ref(0);
-  
-  const sum = computed(() => {
-    if ((firstNumber.value + secondNumber.value) < 0) {
-      alert('Only positive numbers are allowed!');
-      firstNumber.value = 0;
-      secondNumber.value = 0;
-      return 0;
-    }
-    return firstNumber.value + secondNumber.value;
-  });
-  
-  const oddOrEven = computed(() => {
-    return sum.value % 2 === 0 ? 'even' : 'odd';
-  });
-  </script>
+<script setup lang="ts">
+	import { ref, computed, type ComputedRef, watch } from 'vue';
+
+
+	const firstNumber = ref<number>(0);
+	const secondNumber = ref<number>(0);
+
+
+	const sum: ComputedRef<number> = computed(() => firstNumber.value + secondNumber.value);
+	watch(sum, (newSum) => {
+		if (newSum < 0) {
+			alert('Only positive numbers are allowed!');
+			firstNumber.value = 0;
+			secondNumber.value = 0;
+		}
+	});
+	const oddOrEven: ComputedRef<'even' | 'odd'> = computed(() => {
+		return sum.value % 2 === 0 ? 'even' : 'odd';
+	});
+</script>
   
   <style lang="scss" scoped>
   .calculator {

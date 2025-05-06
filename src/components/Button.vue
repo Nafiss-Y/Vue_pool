@@ -4,14 +4,14 @@
       :disabled="!isButtonEnabled"
       class="button"
     >
-      <slot></slot>
+      <slot />
     </button>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const isButtonEnabled = ref(true);
+  const isButtonEnabled = ref<boolean>(true);
 </script>
 <style lang="scss" scoped>
 .button {
