@@ -5,8 +5,7 @@
       type="text"
       class="input-field__control"
       :placeholder="props.placeholder"
-      :value="modelValue"
-      @input="updateValue"
+      v-model="modelValue"
     />
   </div>
 
@@ -28,15 +27,6 @@ const props = withDefaults(defineProps<InputFieldProps>(), {
   placeholder: ''
 });
 
-const emit = defineEmits<{
-  (e: 'input', value: string): void;
-}>();
-
-const updateValue = (event: Event) => {
-  const value = (event.target as HTMLInputElement).value;
-  modelValue.value = value;
-  emit('input', value);
-};
 </script>
 
 <style lang="scss" scoped>
