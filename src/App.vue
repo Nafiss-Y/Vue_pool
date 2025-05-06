@@ -36,7 +36,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import InputField from './components/InputField.vue';
 
 const router = useRouter();
 const route = useRoute();

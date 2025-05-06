@@ -1,34 +1,18 @@
 <template>
-  <div class="button-demo">
-    <div class="toggle-wrapper">
-      <div class="switch-container">
-        <label class="switch">
-          <input 
-            type="checkbox" 
-            v-model="buttonEnabled"
-          >
-          <span class="slider"></span>
-        </label>
-        <span class="switch-label">Enable Button</span>
-      </div>
-    </div>
-    
     <button
-      :class="{'button--disabled': !buttonEnabled}"
-      :disabled="!buttonEnabled"
+      :class="{'button--disabled': !isButtonEnabled}"
+      :disabled="!isButtonEnabled"
       class="button"
     >
-      {{ buttonEnabled ? 'Enabled Button' : 'Disabled Button' }}
+      <slot></slot>
     </button>
-  </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const buttonEnabled = ref(true);
+const isButtonEnabled = ref(true);
 </script>
-
 <style lang="scss" scoped>
 .button {
   padding: 0.75rem 1.5rem;
